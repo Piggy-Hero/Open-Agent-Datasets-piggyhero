@@ -1,32 +1,84 @@
-# Open Agent & SWE Trajectory Datasets
+---
+license: mit
+language:
+- zh
+- en
+task_categories:
+- text-generation
+tags:
+- agent
+- tool-use
+- bug-fixing
+- software-engineering
+- demo
+pretty_name: PMO Agent Data Pro - Bug Fix Demo
+size_categories:
+- n<1K
+configs:
+- config_name: bug_fix_demo
+  data_files:
+  - split: train
+    path: bug_fix_demo.jsonl
+---
 
-Welcome to the **Open Agent Datasets** repository! 
+# PMO Agent Data Pro · Bug Fix Demo
 
-This repository serves as a centralized hub for high-quality, open-source datasets aimed at advancing the capabilities of Large Language Models (LLMs) and AI Agents. We focus on providing **100% raw, un-truncated human-AI pair programming traces**, multi-step reasoning chains, and complex software engineering (SWE) problem-solving trajectories.
+**中文** | [English](README_EN.md)
 
-## 📦 Available Datasets
+> 8 条真实 T020 Bug 修复轨迹，用于展示这套人机结对编程数据集的工具调用、错误定位和回归验证密度。
 
-### 1. PMO-Agent-Vibe-Coding-Trajectory (Demo)
-* **Status**: [Available on Hugging Face](https://huggingface.co/datasets/your-username/PMO-Agent-Vibe-Coding-Demo) 
-* **Description**: A sample dataset extracted from a real-world, 1200+ steps Vibe-Coding session. It captures the collaboration between a human architect and an AI agent building a complex SaaS frontend from scratch.
-* **Key Features**: 
-  - **Multi-step Reasoning**: Includes how the agent analyzes, writes code, self-corrects, and runs regressions.
-  - **Human-in-the-loop**: Real human corrections, debugging commands, and architectural interventions.
-  - **Fully Sanitized**: PII, local paths, and proprietary business logic have been safely redacted.
+## 这个 Demo 里有什么
 
-## 🧠 Why These Datasets?
+- `bug_fix_demo.jsonl`：**8 条** `3_Bug修复与重构` 轨迹（T020-S01 → T020-S08）。
+- 每行保留原始 `human_input`、`agent_thought`、`action_taken`、`test_result` 和 `human_feedback`。
+- 数据已经过 PII、商业名词与路径脱敏；代码、Diff、报错栈和工具结果保留。
+- `LICENSE`：MIT。
+- 审计报告：[`Sanitization_Report_ZH.md`](_reports/Sanitization_Report_ZH.md)。
 
-Most synthetic datasets lack the chaotic reality of true engineering. Our datasets are extracted from actual production-ready projects, containing:
-1. **Self-Correction Loops**: See how agents detect their own bugs (e.g., syntax errors, memory leaks) and fix them.
-2. **Architecture Refactoring**: Traces showing how to break down monoliths into ES Modules and resolve circular dependencies.
-3. **UI/UX Iterations**: From basic logic to pixel-perfect dark modes and PWA configurations.
+## 完整数据集
 
-## 📂 Repository Structure
+当前 Demo 只包含 Bug 修复类的 8 条样例。完整版覆盖 87 个 turn、1,363 个 step、1,277 次工具调用，并包含 8 大分类与 full trajectory：
 
-```text
-Open-Agent-Datasets/
- ┣ 📂 PMO-Agent-Demo/      # The demo dataset files
- ┃ ┣ 📜 bug_fix_demo.jsonl # 8 raw multi-step reasoning samples
- ┃ ┣ 📜 README.md          # Dataset specific details
- ┃ ┗ 📂 _reports/          # Sanitization & Quality Control reports
- ┗ 📜 README.md            # This main hub file
+| 分类 | 行数 |
+|---|---:|
+| `1_架构设计与拆分` | 350 |
+| `2_功能开发与调试` | 135 |
+| `3_Bug修复与重构` | 97 |
+| `4_UI与交互体验优化` | 234 |
+| `5_商业化与权限控制` | 116 |
+| `6_工程化与PWA配置` | 112 |
+| `7_人类纠偏与反思` | 268 |
+| `8_Meta_Cognition_and_Dataset_Pipeline` | 24 |
+| **合计** | **1,336** |
+
+此外，`full_trajectory.jsonl` 提供 **91 条**严格时间序轨迹，保留完整 reasoning、工具调用链、代码修改与报错栈。
+
+> **如需包含 1300 多步完整的搭建过程、AI排错、模糊边界处理与人类极致纠偏等全量商业级数据集，请发送邮件至 gaoyi_sec@outlook.com 获取商业报价。**
+
+## 适合什么
+
+- Agent 工具调用与动作 SFT
+- Bug 复现、定位、最小修复、回归验证
+- 真实代码库中的多步推理与错误恢复
+- 人类纠偏信号与偏好数据
+- 长上下文工程规划与 Agent benchmark
+
+## Schema
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `step_id` | string | 形如 `T020-S01` |
+| `category` | enum | 8 类之一 |
+| `human_input` | string | 人类原始需求或纠偏 |
+| `agent_thought` | string | 该 step 的 reasoning |
+| `action_taken` | array | `{tool, call_id, arguments}` |
+| `test_result` | array | `{call_id, is_error, content, error?}` |
+| `human_feedback` | string | 中途反馈；无则为空 |
+
+## 数据边界
+
+本 Demo 仅用于展示与评测，不包含完整商业训练集。完整版包含更多架构设计、UI/UX、商业化权限、工程化/PWA、人类纠偏与元认知数据管道轨迹。
+
+## License
+
+MIT，详见 [`LICENSE`](LICENSE)。
