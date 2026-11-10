@@ -8,8 +8,6 @@ This is a curated hub dedicated to advancing the capabilities of Large Language 
 
 Our debut dataset captures a real-world, 1,200+ step Vibe-Coding session where a human architect and an AI agent collaborated from scratch to build a production-ready SaaS frontend (The "Intelligent PMO Hub"). 
 
-*   **🤗 [Download the Open-Source Demo on Hugging Face](https://huggingface.co/datasets/your-username/PMO-Agent-Demo)**
-
 ### Why is this dataset unique?
 Most synthetic datasets lack the chaotic reality of true engineering. Our traces are extracted from actual, painful, and ultimately successful debugging sessions:
 *   **Self-Correction Loops**: Watch the agent detect its own memory leaks (e.g., ECharts lifecycle management, SortableJS ghost nodes) and fix them.
